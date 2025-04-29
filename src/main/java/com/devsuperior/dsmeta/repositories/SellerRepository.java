@@ -16,12 +16,6 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
             "WHERE sa.date BETWEEN :minDate AND :maxDate " +
             "GROUP BY se.id " +
             "order by se.name")
-    public List<SellerProjection> getSellerWithDealsByTime(LocalDate minDate, LocalDate maxDate);
+    List<SellerProjection> getSellerWithDealsByTime(LocalDate minDate, LocalDate maxDate);
 
-    @Query(nativeQuery = true,value = "SELECT SUM(sa.amount) as soma, se.name as nome " +
-            "FROM TB_SALES AS sa " +
-            "INNER JOIN TB_SELLER AS se ON sa.SELLER_ID = se.ID " +
-            "GROUP BY se.id " +
-            "order by se.name")
-    public List<SellerProjection> getSellerWithDeals();
 }
