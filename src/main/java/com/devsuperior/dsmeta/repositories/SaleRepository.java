@@ -20,6 +20,13 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             and upper(se.name) like upper(concat('%',:name,'%'))
             order by sa.id
             """)
-    Page<SalerProjection> findSaleByDateAndSeller(LocalDate  minDate,LocalDate maxDate,String name, Pageable pageable);
+    Page<SalerProjection> findSaleByDateAndSeller1(LocalDate  minDate,LocalDate maxDate,String name, Pageable pageable);
+
+
+    @Query(
+            value = "SELECT obj FROM Sale obj WHERE obj.date BETWEEN :minDate AND :maxDate AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%',:name,'%')) ",
+            countQuery = "SELECT COUNT(obj) FROM Sale obj WHERE obj.date BETWEEN :minDate AND :maxDate AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%',:name,'%')) "
+    )
+    Page<Sale> findSaleByDateAndSeller(LocalDate  minDate,LocalDate maxDate,String name, Pageable pageable);
 
 }
